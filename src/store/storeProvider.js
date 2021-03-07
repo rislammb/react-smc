@@ -24,12 +24,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 export const db = firebase.firestore();
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker
-    .register('/sw.js')
-    .catch((err) => console.log('SW registration faild!', err));
-}
-
 db.enablePersistence().catch((err) => {
   console.log('Persistence Faild', err);
 });
