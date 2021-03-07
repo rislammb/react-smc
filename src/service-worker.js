@@ -71,3 +71,33 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+const staticCache = 'static-cache-v3';
+const dynamicCache = 'dynamic-cache-v3';
+
+const fileToCache = [
+  '/static/js/bundle.js',
+  '/static/js/main.chunk.js',
+  '/static/js/vendors~main.chunk.js',
+  '/index.html',
+  '/',
+  '/form-icons/capsule.svg',
+  '/form-icons/default.svg',
+  '/form-icons/drop.svg',
+  '/form-icons/infusion.svg',
+  '/form-icons/injection.svg',
+  '/form-icons/ointment.svg',
+  '/form-icons/solution.svg',
+  '/form-icons/suppository.svg',
+  '/form-icons/suspension.svg',
+  '/form-icons/syrup.svg',
+  '/form-icons/tablet.svg',
+  'https://fonts.gstatic.com/s/titilliumweb/v9/NaPecZTIAOhVxoMyOr9n_E7fdMPmDQ.woff2',
+];
+
+self.addEventListener('install', function (event) {
+  event.waitUntil(
+    caches.open(staticCache).then((cache) => {
+      return cache.addAll(fileToCache);
+    })
+  );
+});
