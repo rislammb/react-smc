@@ -33,8 +33,9 @@ const StoreProvider = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [user, setUser] = useState(null);
   const [userError, setUserError] = useState(null);
-  const [loading, setLoading] = useState(null);
-  const [authLoading, setAuthLoading] = useState(false);
+  const [isSendEmail, setIsSendEmail] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dbMedicines, setDbMedicines] = useState([]);
   const [userDbMedicines, setUserDbMedicines] = useState([]);
@@ -42,7 +43,6 @@ const StoreProvider = () => {
   const [createError, setCreateError] = useState('');
 
   const fetchMedicines = () => {
-    setLoading(true);
     db.collection('smc')
       .orderBy('name')
       .onSnapshot((snapshot) => {
@@ -56,7 +56,6 @@ const StoreProvider = () => {
   };
 
   const fetchUserMedicines = (url) => {
-    setLoading(true);
     db.collection(url)
       .orderBy('name')
       .onSnapshot((snapshot) => {
@@ -77,7 +76,7 @@ const StoreProvider = () => {
     setMedicines(tempMedicines);
   };
 
-  const registerUser = ({ name, email, password }) => {
+  const createUser = ({ name, email, password }) => {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -95,11 +94,11 @@ const StoreProvider = () => {
       })
       .catch((err) => {
         if (err.code === 'auth/email-already-in-use') {
-          setUserError({ register: 'Email Already In Use' });
+          setUserError({ create: 'Email Already In Use' });
         } else if (err.code === 'auth/network-request-failed') {
-          setUserError({ register: "Registration doesn't work offline" });
+          setUserError({ create: "Registration doesn't work offline" });
         } else {
-          setUserError({ register: 'Something went wrong!' });
+          setUserError({ create: 'Something went wrong!' });
         }
       });
   };
@@ -130,6 +129,26 @@ const StoreProvider = () => {
       });
   };
 
+  const recoverAccount = (email) => {
+    return firebase
+      .auth()
+      .sendPasswordResetEmail(email)
+      .then(() => {
+        setIsSendEmail(true);
+      })
+      .catch((err) => {
+        if (err.code === 'auth/user-not-found') {
+          setUserError({
+            recover: 'User not found!',
+          });
+        } else if (err.code === 'auth/network-request-failed') {
+          setUserError({ recover: "Send Email doesn't work offline" });
+        } else {
+          setUserError({ recover: 'Something went wrong!' });
+        }
+      });
+  };
+
   const logoutUser = () => {
     return firebase
       .auth()
@@ -143,7 +162,9 @@ const StoreProvider = () => {
       .collection(values.shopUrl)
       .get()
       .then((res) => {
-        if (res.empty) {
+        if (!res.empty) {
+          return setCreateError('This Shop Url already in use!');
+        } else {
           const newMedicine = {
             dForm: values.dForm,
             name: values.name,
@@ -175,8 +196,6 @@ const StoreProvider = () => {
             .catch((err) => {
               console.log('Medicine Added error', err);
             });
-        } else {
-          return setCreateError('This Shop Url already in use!');
         }
       });
   };
@@ -217,17 +236,26 @@ const StoreProvider = () => {
   const toggleDarkMode = () => setDarkMode(!darkMode);
 
   useEffect(() => {
-    setAuthLoading(true);
-    return db
-      .collection('users')
-      .doc(firebase.auth().currentUser?.uid)
-      .get()
-      .then((doc) => {
-        setUser(doc.data());
-      })
-      .then(() => setAuthLoading(false))
-      .catch(() => setAuthLoading(false));
-  }, [firebase.auth().currentUser]);
+    return firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        return db
+          .collection('users')
+          .doc(firebase.auth().currentUser?.uid)
+          .get()
+          .then((doc) => {
+            setUser(doc.data());
+          })
+          .then(() => setAuthLoading(false))
+          .catch(() => {
+            setUser(null);
+            setAuthLoading(false);
+          });
+      } else {
+        setUser(null);
+        setAuthLoading(false);
+      }
+    });
+  }, [firebase.auth()]);
 
   return (
     <StoreContext.Provider
@@ -240,9 +268,12 @@ const StoreProvider = () => {
         fetchUserMedicines,
         user,
         setUser,
-        registerUser,
+        createUser,
         loginUser,
         logoutUser,
+        recoverAccount,
+        isSendEmail,
+        setIsSendEmail,
         userError,
         setUserError,
         authLoading,

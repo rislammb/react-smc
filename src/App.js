@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
     backgroundImage:
       theme.palette.type === 'light'
-        ? 'linear-gradient(to right, #fff1da, #f9ffdc, #eafffe)'
-        : '',
+        ? 'linear-gradient(to right, #fff4e3, #f9ffdc, #fff2ff)'
+        : 'linear-gradient(to right, #333, #373737)',
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,

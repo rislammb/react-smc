@@ -3,13 +3,17 @@ import { Link, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import TextField from '@material-ui/core/TextField';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  Button,
+  LinearProgress,
+} from '@material-ui/core';
+import EmailField from '../components/EmailField';
 
 import StoreContext from '../store/storeContext';
-import { CardContent, Typography, LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,33 +63,35 @@ const validationSchema = yup.object({
     .string('Enter your email')
     .email('Enter a valid email')
     .required('Email is required'),
-  password: yup
-    .string('Enter your password')
-    .min(7, 'Password should be of minimum 7 characters length')
-    .required('Password is required'),
 });
 
-const Login = () => {
+const Recover = () => {
   const classes = useStyles();
-  const { authLoading, user, userError, setUserError, loginUser } = useContext(
-    StoreContext
-  );
+  const {
+    authLoading,
+    user,
+    userError,
+    setUserError,
+    recoverAccount,
+    isSendEmail,
+    setIsSendEmail,
+  } = useContext(StoreContext);
 
   const formik = useFormik({
     initialValues: {
       email: '',
-      password: '',
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setUserError({});
-      await loginUser(values);
+      await recoverAccount(values.email);
       setSubmitting(false);
     },
   });
 
   useEffect(() => {
     setUserError({});
+    setIsSendEmail(false);
   }, []);
 
   if (authLoading)
@@ -99,39 +105,27 @@ const Login = () => {
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader className={classes.header} title='Login' />
+        <CardHeader className={classes.header} title='Account Recovery' />
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              id='email'
-              name='email'
-              label='Email'
-              type='email'
-              placeholder='arahman@email.com'
+            <EmailField
+              label='Enater Email for recovery link'
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               className={classes.input}
             />
-            <TextField
-              fullWidth
-              id='password'
-              name='password'
-              label='Password'
-              type='password'
-              type='password'
-              placeholder='********'
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              error={formik.touched.password && Boolean(formik.errors.password)}
-              helperText={formik.touched.password && formik.errors.password}
-              className={classes.input}
-            />
-            {userError?.login && (
-              <Typography color='error'>{userError?.login}</Typography>
+            {userError?.recover ? (
+              <Typography color='error'>{userError?.recover}</Typography>
+            ) : (
+              isSendEmail && (
+                <Typography color='primary'>
+                  Password reset Email has send. Please check your Email
+                </Typography>
+              )
             )}
+
             <div className={classes.cardActions}>
               <Button
                 disabled={formik.isSubmitting}
@@ -139,17 +133,12 @@ const Login = () => {
                 variant='contained'
                 type='submit'
               >
-                Login
+                Send Email
               </Button>
               <Typography variant='body2' className={classes.recoverText}>
-                <Link className={classes.link} to='/recover'>
-                  Forgot Password?
-                </Link>
-              </Typography>
-              <Typography variant='body2'>
-                Don't have an account?{' '}
-                <Link className={classes.link} to='/create'>
-                  Create
+                Remember Password?{' '}
+                <Link className={classes.link} to='/login'>
+                  Login
                 </Link>
               </Typography>
             </div>
@@ -160,4 +149,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Recover;

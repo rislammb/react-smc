@@ -62,7 +62,11 @@ const DrawerList = ({ closeDrawer }) => {
         </NavLink>
         <NavLink
           to={
-            user ? (user.shopUrl ? `/p/${user.shopUrl}` : '/create') : '/login'
+            user
+              ? user.shopUrl
+                ? `/p/${user.shopUrl}`
+                : '/create-page'
+              : '/login'
           }
           onClick={closeDrawer}
           activeStyle={{

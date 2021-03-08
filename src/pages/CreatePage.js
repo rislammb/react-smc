@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '90%',
     backgroundImage:
       theme.palette.type === 'light'
-        ? 'linear-gradient(to right, #fff7ea, #f9ffdc)'
+        ? 'linear-gradient(to right, #fff4e3, #f9ffdc, #fff2ff)'
         : '',
   },
   header: {
@@ -213,7 +213,7 @@ const CreatePage = () => {
                     variant='contained'
                     type='submit'
                   >
-                    Create
+                    Create Page
                   </Button>
                 </div>
               </form>

@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     width: 220,
     backgroundImage:
       theme.palette.type === 'light'
-        ? 'linear-gradient(to right, #fff6e8, #effffe)'
+        ? 'linear-gradient(to right,  #fff4e3, #f9ffdc)'
         : '',
     [theme.breakpoints.up('sm')]: {
       background: 'transparent',

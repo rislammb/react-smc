@@ -36,10 +36,10 @@ const useStyles = makeStyles((theme) => ({
         : theme.palette.primary.light,
   },
   divider: {
-    margin: '25px 0',
+    margin: '21px 0',
   },
-  strong: {
-    letterSpacing: 1.1,
+  fontSize: {
+    fontSize: 17,
   },
 }));
 
@@ -49,15 +49,15 @@ const Contact = () => {
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader className={classes.header} title='Contact to SMC' />
+        <CardHeader className={classes.header} title='Contact SMC' />
         <CardContent>
-          <Typography variant='h6'>
+          <Typography className={classes.fontSize}>
             Mail to:{' '}
             <Link className={classes.link} href='mailto:rislammb@gmail.com'>
               rislammb@gmail.com
             </Link>
           </Typography>
-          <Typography variant='h6'>
+          <Typography className={classes.fontSize}>
             Facebook:{' '}
             <Link
               className={classes.link}
@@ -68,11 +68,15 @@ const Contact = () => {
           </Typography>
           <Divider className={classes.divider} />
           <Typography variant='h5'>Find Us at:</Typography>
-          <Typography>
-            <strong className={classes.strong}>Puran Polli Biddut More,</strong>
+          <Typography style={{ fontSize: 17, marginTop: 9 }}>
+            <strong>Puran Polli Biddut More,</strong>
           </Typography>
-          <Typography>Bhowanigonj Bazar,</Typography>
-          <Typography>Bagmara, Rajshahi, Bangladesh</Typography>
+          <Typography className={classes.fontSize}>
+            Bhowanigonj Bazar,
+          </Typography>
+          <Typography className={classes.fontSize}>
+            Bagmara, Rajshahi, Bangladesh
+          </Typography>
         </CardContent>
       </Card>
     </div>

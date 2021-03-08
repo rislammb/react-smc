@@ -69,15 +69,11 @@ const validationSchema = yup.object({
     .required('Password is required'),
 });
 
-const Register = () => {
+const CreateAccount = () => {
   const classes = useStyles();
-  const {
-    authLoading,
-    user,
-    userError,
-    setUserError,
-    registerUser,
-  } = useContext(StoreContext);
+  const { authLoading, user, userError, setUserError, createUser } = useContext(
+    StoreContext
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -88,7 +84,7 @@ const Register = () => {
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setUserError({});
-      await registerUser(values);
+      await createUser(values);
       setSubmitting(false);
     },
   });
@@ -112,7 +108,7 @@ const Register = () => {
     return (
       <div className={classes.root}>
         <Card className={classes.card}>
-          <CardHeader className={classes.header} title='Register a User' />
+          <CardHeader className={classes.header} title='Create Account' />
           <CardContent>
             <form onSubmit={formik.handleSubmit}>
               <TextField
@@ -155,8 +151,8 @@ const Register = () => {
                 helperText={formik.touched.password && formik.errors.password}
                 className={classes.input}
               />
-              {userError?.register && (
-                <Typography color='error'>{userError?.register}</Typography>
+              {userError?.create && (
+                <Typography color='error'>{userError?.create}</Typography>
               )}
               <div className={classes.cardActions}>
                 <Button
@@ -165,12 +161,12 @@ const Register = () => {
                   variant='contained'
                   type='submit'
                 >
-                  Register
+                  Create
                 </Button>
                 <Typography variant='body2' className={classes.loginText}>
-                  Already have an account? Please{' '}
+                  Already have an account?{' '}
                   <Link className={classes.link} to='/login'>
-                    login
+                    Login
                   </Link>
                 </Typography>
               </div>
@@ -182,4 +178,4 @@ const Register = () => {
   }
 };
 
-export default Register;
+export default CreateAccount;

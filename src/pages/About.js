@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
   },
-  strong: {
-    letterSpacing: 1.1,
-  },
 }));
 
 const About = () => {
@@ -32,11 +29,11 @@ const About = () => {
   return (
     <div className={classes.root}>
       <Card className={classes.card}>
-        <CardHeader className={classes.header} title='Sara Medicine Corner' />
+        <CardHeader className={classes.header} title='About SMC' />
         <CardContent>
-          <Typography>
-            <strong className={classes.strong}>Sara Medicine Corner</strong> is
-            a small medicine retail shop in Bagmara, Rajshahi, Bangladesh.
+          <Typography style={{ fontSize: 17 }}>
+            <strong>Sara Medicine Corner (SMC)</strong> is a small medicine
+            retail shop in Bagmara, Rajshahi, Bangladesh.
           </Typography>
         </CardContent>
       </Card>

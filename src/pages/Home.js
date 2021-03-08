@@ -26,7 +26,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className={classes.root}>
+    <div>
       <div className={classes.topContainer}>
         <Search />
       </div>

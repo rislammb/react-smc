@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '90%',
     backgroundImage:
       theme.palette.type === 'light'
-        ? 'linear-gradient(to right,  #fff6e8, #f9ffdc, #eafffe)'
+        ? 'linear-gradient(to right,  #fff4e3, #f9ffdc, #fff2ff)'
         : '',
     '&:focus': {
       outline: 'none',
