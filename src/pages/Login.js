@@ -3,13 +3,18 @@ import { Link, Redirect } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import TextField from '@material-ui/core/TextField';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  Button,
+  LinearProgress,
+} from '@material-ui/core';
+import EmailField from '../components/EmailField';
+import PasswordField from '../components/PasswordField';
 
 import StoreContext from '../store/storeContext';
-import { CardContent, Typography, LinearProgress } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,27 +107,14 @@ const Login = () => {
         <CardHeader className={classes.header} title='Login' />
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              id='email'
-              name='email'
-              label='Email'
-              type='email'
-              placeholder='arahman@email.com'
+            <EmailField
               value={formik.values.email}
               onChange={formik.handleChange}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               className={classes.input}
             />
-            <TextField
-              fullWidth
-              id='password'
-              name='password'
-              label='Password'
-              type='password'
-              type='password'
-              placeholder='********'
+            <PasswordField
               value={formik.values.password}
               onChange={formik.handleChange}
               error={formik.touched.password && Boolean(formik.errors.password)}

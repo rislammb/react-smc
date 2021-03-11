@@ -9,10 +9,10 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-
-import StoreContext from '../store/storeContext';
 import DrawerComp from './DrawerComp';
 import SearchPage from './SearchPage';
+
+import StoreContext from '../store/storeContext';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

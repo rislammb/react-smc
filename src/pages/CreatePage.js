@@ -1,14 +1,22 @@
 import React, { useContext, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
-
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { makeStyles } from '@material-ui/core/styles';
-import { CardContent, Typography, CircularProgress } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import TextField from '@material-ui/core/TextField';
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  Typography,
+  TextField,
+  Button,
+  CircularProgress,
+} from '@material-ui/core';
+import DoseField from '../components/DoseField';
+import NameField from '../components/NameField';
+import SizeField from '../components/SizeField';
+import SingleField from '../components/SingleField';
+import BlisterField from '../components/BlisterField';
 
 import StoreContext from '../store/storeContext';
 
@@ -53,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
 const validationSchema = yup.object({
   shopName: yup
     .string('Enter Your Shop Name')
-    .min(4, 'Page Name should be of minimum 4 characters length')
+    .min(3, 'Page Name should be of minimum 3 characters length')
     .required('Shop Name is required'),
   shopUrl: yup
     .string('Enter Your Shop Url')
@@ -152,56 +160,31 @@ const CreatePage = () => {
                 >
                   Add First Medicine
                 </Typography>
-                <TextField
-                  fullWidth
-                  id='dForm'
-                  name='dForm'
-                  placeholder='e.g. Tablet'
-                  label='Doges Form'
+                <DoseField
                   value={formik.values.dForm}
                   onChange={formik.handleChange}
                   error={formik.touched.dForm && Boolean(formik.errors.dForm)}
                   helperText={formik.touched.dForm && formik.errors.dForm}
                   className={classes.input}
                 />
-                <TextField
-                  fullWidth
-                  id='name'
-                  name='name'
-                  placeholder='e.g. Napa'
-                  label='Name'
+                <NameField
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   error={formik.touched.name && Boolean(formik.errors.name)}
                   helperText={formik.touched.name && formik.errors.name}
                   className={classes.input}
                 />
-                <TextField
-                  fullWidth
-                  id='size'
-                  name='size'
-                  placeholder='e.g. 500mg'
-                  label='Size'
+                <SizeField
                   value={formik.values.size}
                   onChange={formik.handleChange}
                   className={classes.input}
                 />
-                <TextField
-                  fullWidth
-                  id='one'
-                  name='one'
-                  placeholder='e.g. 1'
-                  label='Single Price'
+                <SingleField
                   value={formik.values.one}
                   onChange={formik.handleChange}
                   className={classes.input}
                 />
-                <TextField
-                  fullWidth
-                  id='blister'
-                  name='blister'
-                  placeholder='e.g. 8'
-                  label='Blister Price'
+                <BlisterField
                   value={formik.values.blister}
                   onChange={formik.handleChange}
                   className={classes.input}

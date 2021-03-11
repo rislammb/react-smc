@@ -1,18 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
+import AddMedicine from '../components/AddMedicine';
+import Search from '../components/Search';
+import MedicineTable from '../components/MedicineTable';
 
 import StoreContext from '../store/storeContext';
 
-import MedicineTable from '../components/MedicineTable';
-import Search from '../components/Search';
-import AddMedicine from '../components/AddMedicine';
-import { Redirect } from 'react-router-dom';
-
-const useStyles = makeStyles({});
-
 const EditPage = ({ match }) => {
   const { shopUrl } = match.params;
-  const classes = useStyles();
   const [openModal, setOpenModal] = useState(false);
   const { user, fetchUserMedicines } = useContext(StoreContext);
 
@@ -26,7 +21,7 @@ const EditPage = ({ match }) => {
 
   if (shopUrl !== user?.shopUrl) return <Redirect to={`/p/${shopUrl}`} />;
   return (
-    <div className={classes.root}>
+    <div>
       <Search edit toggleModal={toggleModal} />
       <MedicineTable edit />
       <AddMedicine open={openModal} toggleModal={toggleModal} />

@@ -12,12 +12,11 @@ import {
   Card,
   CircularProgress,
 } from '@material-ui/core';
-
-import StoreContext from '../store/storeContext';
 import SlimTableCell from './SlimTableCell';
+import DeleteMedicine from './DeleteMedicine';
 import { getIcon } from '../getIcon';
 
-import DeleteMedicine from './DeleteMedicine';
+import StoreContext from '../store/storeContext';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

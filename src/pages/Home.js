@@ -1,10 +1,9 @@
 import React, { useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-
-import StoreContext from '../store/storeContext';
-
 import MedicineTable from '../components/MedicineTable';
 import Search from '../components/Search';
+
+import StoreContext from '../store/storeContext';
 
 const useStyles = makeStyles((theme) => ({
   topContainer: {

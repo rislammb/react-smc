@@ -8,11 +8,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import HomeIcon from '@material-ui/icons/Home';
-import PageIcon from '@material-ui/icons/Pages';
-import InfoIcon from '@material-ui/icons/Info';
+import { Mail, AccountCircle, Home, Pages, Info } from '@material-ui/icons';
 
 import StoreContext from '../store/storeContext';
 
@@ -55,7 +51,7 @@ const DrawerList = ({ closeDrawer }) => {
         >
           <ListItem button>
             <ListItemIcon>
-              <HomeIcon />
+              <Home />
             </ListItemIcon>
             <ListItemText primary='Home' />
           </ListItem>
@@ -76,7 +72,7 @@ const DrawerList = ({ closeDrawer }) => {
         >
           <ListItem button>
             <ListItemIcon>
-              <PageIcon />
+              <Pages />
             </ListItemIcon>
             <ListItemText
               primary={
@@ -99,7 +95,7 @@ const DrawerList = ({ closeDrawer }) => {
         >
           <ListItem button>
             <ListItemIcon>
-              <InfoIcon />
+              <Info />
             </ListItemIcon>
             <ListItemText primary='About SMC' />
           </ListItem>
@@ -114,7 +110,7 @@ const DrawerList = ({ closeDrawer }) => {
         >
           <ListItem button>
             <ListItemIcon>
-              <MailIcon />
+              <Mail />
             </ListItemIcon>
             <ListItemText primary='Contact' />
           </ListItem>

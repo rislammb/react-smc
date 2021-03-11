@@ -7,9 +7,7 @@ import {
   makeStyles,
   IconButton,
 } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import EditIcon from '@material-ui/icons/Edit';
-import { Clear } from '@material-ui/icons';
+import { Add, Edit, Clear } from '@material-ui/icons';
 
 import StoreContext from '../store/storeContext';
 
@@ -90,12 +88,12 @@ const Search = ({ shopUrl, handleEdit, edit, toggleModal }) => {
     <div className={classes.topContainer}>
       {shopUrl && user?.shopUrl === shopUrl && (
         <IconButton size='medium' className={classes.btn} onClick={handleEdit}>
-          <EditIcon />
+          <Edit />
         </IconButton>
       )}
       {edit && (
         <IconButton size='small' onClick={toggleModal} className={classes.btn}>
-          <AddIcon fontSize='large' />
+          <Add fontSize='large' />
         </IconButton>
       )}
       <FormControl variant='outlined'>

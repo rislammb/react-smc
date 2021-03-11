@@ -43,6 +43,7 @@ const StoreProvider = () => {
   const [createError, setCreateError] = useState('');
 
   const fetchMedicines = () => {
+    setLoading(true);
     db.collection('smc')
       .orderBy('name')
       .onSnapshot((snapshot) => {
@@ -56,6 +57,7 @@ const StoreProvider = () => {
   };
 
   const fetchUserMedicines = (url) => {
+    setLoading(true);
     db.collection(url)
       .orderBy('name')
       .onSnapshot((snapshot) => {
@@ -157,8 +159,8 @@ const StoreProvider = () => {
       .catch((err) => console.log('Log out err', err));
   };
 
-  const createCollection = (values) => {
-    return db
+  const createCollection = async (values) => {
+    await db
       .collection(values.shopUrl)
       .get()
       .then((res) => {

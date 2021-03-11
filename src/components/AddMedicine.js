@@ -7,11 +7,15 @@ import {
   CardHeader,
   Button,
   Modal,
-  TextField,
   Backdrop,
   Fade,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import DoseField from './DoseField';
+import NameField from './NameField';
+import SizeField from './SizeField';
+import SingleField from './SingleField';
+import BlisterField from './BlisterField';
 
 import StoreContext from '../store/storeContext';
 
@@ -95,57 +99,32 @@ const AddMedicine = ({ open, toggleModal }) => {
           <CardHeader className={classes.header} title='Add Medicine' />
           <CardContent>
             <form onSubmit={formik.handleSubmit}>
-              <TextField
-                fullWidth
-                autoFocus
-                id='dForm'
-                name='dForm'
-                placeholder='e.g. Tablet'
-                label='Doges Form'
+              <DoseField
+                autofocus
                 value={formik.values.dForm}
                 onChange={formik.handleChange}
                 error={formik.touched.dForm && Boolean(formik.errors.dForm)}
                 helperText={formik.touched.dForm && formik.errors.dForm}
                 className={classes.input}
               />
-              <TextField
-                fullWidth
-                id='name'
-                name='name'
-                placeholder='e.g. Napa'
-                label='Name'
+              <NameField
                 value={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name && Boolean(formik.errors.name)}
                 helperText={formik.touched.name && formik.errors.name}
                 className={classes.input}
               />
-              <TextField
-                fullWidth
-                id='size'
-                name='size'
-                placeholder='e.g. 500mg'
-                label='Size'
+              <SizeField
                 value={formik.values.size}
                 onChange={formik.handleChange}
                 className={classes.input}
               />
-              <TextField
-                fullWidth
-                id='one'
-                name='one'
-                placeholder='e.g. 1'
-                label='Single Price'
+              <SingleField
                 value={formik.values.one}
                 onChange={formik.handleChange}
                 className={classes.input}
               />
-              <TextField
-                fullWidth
-                id='blister'
-                name='blister'
-                placeholder='e.g. 8'
-                label='Blister Price'
+              <BlisterField
                 value={formik.values.blister}
                 onChange={formik.handleChange}
                 className={classes.input}
