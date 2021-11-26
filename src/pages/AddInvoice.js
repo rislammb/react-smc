@@ -220,13 +220,12 @@ const AddInvoice = ({ match, history }) => {
             expireDate: getMonth(item.expireDate),
           };
         });
-        console.log(finalList);
-        // addUserInvoice({
-        //   date: getDate(selectedDate),
-        //   buyFrom: trimedBuyFrom,
-        //   invoiceNumber: trimedInvoiceNumber,
-        //   medicines: finalList,
-        // });
+        addUserInvoice({
+          date: getDate(selectedDate),
+          buyFrom: trimedBuyFrom,
+          invoiceNumber: trimedInvoiceNumber,
+          medicines: finalList,
+        });
         return history.goBack();
       } else {
         setIsListError(true);
