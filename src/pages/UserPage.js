@@ -1,15 +1,17 @@
-import React, { useEffect, useContext } from 'react';
-import MedicineTable from '../components/MedicineTable';
+import React, { useState, useEffect, useContext } from 'react';
+import AddMedicine from '../components/AddMedicine';
 import Search from '../components/Search';
+import MedicineTable from '../components/MedicineTable';
 
 import StoreContext from '../store/storeContext';
 
-const UserPage = (props) => {
-  const { shopUrl } = props.match.params;
+const UserPage = ({ match }) => {
+  const { shopUrl } = match.params;
+  const [openModal, setOpenModal] = useState(false);
   const { fetchUserMedicines } = useContext(StoreContext);
 
-  const handleEdit = () => {
-    return props.history.push(`/p/${shopUrl}/edit`);
+  const toggleModal = () => {
+    setOpenModal(!openModal);
   };
 
   useEffect(() => {
@@ -18,8 +20,9 @@ const UserPage = (props) => {
 
   return (
     <div>
-      <Search shopUrl={shopUrl} handleEdit={handleEdit} />
-      <MedicineTable />
+      <Search shopUrl={shopUrl} toggleModal={toggleModal} />
+      <MedicineTable shopUrl={shopUrl} />
+      <AddMedicine open={openModal} toggleModal={toggleModal} />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import {
   makeStyles,
   IconButton,
 } from '@material-ui/core';
-import { Add, Edit, Clear } from '@material-ui/icons';
+import { Add, Clear } from '@material-ui/icons';
 
 import StoreContext from '../store/storeContext';
 
@@ -37,93 +37,39 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Search = ({ shopUrl, handleEdit, edit, toggleModal }) => {
+const Search = ({ shopUrl, toggleModal }) => {
   const classes = useStyles();
   const {
-    user,
+    state: { user, medicines, userMedicines, searchTerm },
     setSearchTerm,
-    setMedicines,
-    dbMedicines,
-    filterMedicines,
-    userDbMedicines,
-    filterUserMedicines,
   } = useContext(StoreContext);
-  const [search, setSearch] = useState('');
-
-  const handleKeyUp = () => {
-    if (search.trim().length > 0) {
-      if (shopUrl || edit) {
-        filterUserMedicines(search.trim().toLowerCase());
-      } else {
-        filterMedicines(search.trim().toLowerCase());
-      }
-    } else {
-      setMedicines([]);
-    }
-  };
-
-  const handleClear = () => {
-    setSearch('');
-    setMedicines([]);
-  };
-
-  useEffect(() => {
-    setSearchTerm(search.trim().toLowerCase());
-  }, [search]);
-
-  useEffect(() => {
-    setMedicines([]);
-    if (search.trim().length > 0) {
-      if (shopUrl || edit) {
-        filterUserMedicines(search.trim().toLowerCase());
-      } else {
-        filterMedicines(search.trim().toLowerCase());
-      }
-    } else {
-      setMedicines([]);
-    }
-  }, [dbMedicines, userDbMedicines]);
 
   return (
     <div className={classes.topContainer}>
       {shopUrl && user?.shopUrl === shopUrl && (
-        <IconButton size='medium' className={classes.btn} onClick={handleEdit}>
-          <Edit />
-        </IconButton>
-      )}
-      {edit && (
         <IconButton size='small' onClick={toggleModal} className={classes.btn}>
           <Add fontSize='large' />
         </IconButton>
       )}
       <FormControl variant='outlined'>
-        <InputLabel>
-          {shopUrl || edit
-            ? shopUrl
-              ? shopUrl
-              : user.shopUrl
-            : 'Search Medicine'}
-        </InputLabel>
+        <InputLabel>{shopUrl ? shopUrl : 'Search Medicine'}</InputLabel>
         <OutlinedInput
-          value={search}
+          value={searchTerm}
           autoFocus
-          onChange={(e) => setSearch(e.target.value)}
-          onKeyUp={handleKeyUp}
+          onChange={(e) => setSearchTerm(e.target.value)}
           placeholder={`Search from ${
-            shopUrl || edit ? userDbMedicines.length : dbMedicines.length
+            shopUrl ? userMedicines.length : medicines.length
           } Items`}
           endAdornment={
             <InputAdornment position='end'>
               <Clear
                 className={classes.clear}
                 fontSize='small'
-                onClick={handleClear}
+                onClick={() => setSearchTerm('')}
               />
             </InputAdornment>
           }
-          labelWidth={
-            shopUrl ? shopUrl.length * 9 : edit ? user?.shopUrl.length * 9 : 111
-          }
+          labelWidth={shopUrl ? shopUrl.length * 9 : 111}
         />
       </FormControl>
     </div>

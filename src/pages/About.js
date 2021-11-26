@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: '16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -31,9 +32,11 @@ const About = () => {
       <Card className={classes.card}>
         <CardHeader className={classes.header} title='About SMC' />
         <CardContent>
-          <Typography style={{ fontSize: 17 }}>
-            <strong>Sara Medicine Corner (SMC)</strong> is a small medicine
-            retail shop in Bagmara, Rajshahi, Bangladesh.
+          <Typography>
+            <span style={{ fontSize: '1.1rem' }}>
+              Sara Medicine Corner (SMC)
+            </span>{' '}
+            is a small medicine retail shop in Bagmara, Rajshahi, Bangladesh.
           </Typography>
         </CardContent>
       </Card>

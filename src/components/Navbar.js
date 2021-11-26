@@ -16,7 +16,7 @@ import StoreContext from '../store/storeContext';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: `calc(100% - 220px)`,
       marginRight: 220,
     },
@@ -34,14 +34,17 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
   },
   menuButton: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'none',
     },
   },
 }));
 
 const Navbar = (props) => {
-  const { darkMode, toggleDarkMode } = useContext(StoreContext);
+  const {
+    state: { darkMode },
+    toggleDarkMode,
+  } = useContext(StoreContext);
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = useState(false);
 

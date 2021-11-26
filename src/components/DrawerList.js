@@ -24,7 +24,10 @@ const useStyles = makeStyles((theme) => ({
 const DrawerList = ({ closeDrawer }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const { user, logoutUser } = useContext(StoreContext);
+  const {
+    state: { user },
+    logoutUser,
+  } = useContext(StoreContext);
 
   const logoutHandler = () => {
     if (user) {
@@ -85,6 +88,23 @@ const DrawerList = ({ closeDrawer }) => {
             />
           </ListItem>
         </NavLink>
+        {user?.shopUrl && (
+          <NavLink
+            to={`/i/${user.shopUrl}`}
+            onClick={closeDrawer}
+            activeStyle={{
+              color: theme.palette.type === 'dark' ? 'lightgreen' : 'green',
+            }}
+            className={classes.link}
+          >
+            <ListItem button>
+              <ListItemIcon>
+                <Pages />
+              </ListItemIcon>
+              <ListItemText primary='Your Invoice' />
+            </ListItem>
+          </NavLink>
+        )}
         <NavLink
           to='/about'
           onClick={closeDrawer}

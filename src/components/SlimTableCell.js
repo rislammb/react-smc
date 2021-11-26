@@ -5,7 +5,7 @@ const useStyles = makeStyles((theme) => ({
   lsPaddingRoot: {
     padding: '5px 6px',
     [theme.breakpoints.up('md')]: {
-      padding: '10px 16px',
+      padding: '7px 16px',
     },
   },
 }));

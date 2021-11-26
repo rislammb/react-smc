@@ -6,7 +6,7 @@ import DrawerList from './DrawerList';
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       width: 220,
       flexShrink: 0,
     },
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light'
         ? 'linear-gradient(to right,  #fff4e3, #f9ffdc)'
         : '',
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up('md')]: {
       background: 'transparent',
     },
   },
@@ -33,7 +33,7 @@ const DrawerComp = (props) => {
   return (
     <nav className={classes.drawer} aria-label='mailbox folders'>
       {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-      <Hidden smUp implementation='css'>
+      <Hidden mdUp implementation='css'>
         <Drawer
           container={container}
           variant='temporary'
@@ -50,7 +50,7 @@ const DrawerComp = (props) => {
           <DrawerList closeDrawer={closeDrawer} />
         </Drawer>
       </Hidden>
-      <Hidden xsDown implementation='css'>
+      <Hidden smDown implementation='css'>
         <Drawer
           classes={{
             paper: classes.drawerPaper,

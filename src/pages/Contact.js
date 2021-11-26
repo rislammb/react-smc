@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: '16px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -68,8 +69,8 @@ const Contact = () => {
           </Typography>
           <Divider className={classes.divider} />
           <Typography variant='h5'>Find Us at:</Typography>
-          <Typography style={{ fontSize: 17, marginTop: 9 }}>
-            <strong>Puran Polli Biddut More,</strong>
+          <Typography style={{ marginTop: 9 }}>
+            Puran Polli Biddut More,
           </Typography>
           <Typography className={classes.fontSize}>
             Bhowanigonj Bazar,

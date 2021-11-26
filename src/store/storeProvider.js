@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import {
   createMuiTheme,
   ThemeProvider,
@@ -10,6 +10,19 @@ import 'firebase/auth';
 
 import StoreContext from './storeContext';
 import App from '../App';
+
+import {
+  SET_DARK_MODE,
+  AUTH_LOADING,
+  SET_USER,
+  DATA_LOADING,
+  SET_MEDICINES,
+  SET_USER_MEDICINES,
+  SET_SEARCH_TERM,
+  SET_USER_INVOICES,
+  SET_SINGLE_INVOICE,
+} from './types';
+import reducer, { initialState } from './reducer';
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_API_KEY,
@@ -29,21 +42,15 @@ db.enablePersistence().catch((err) => {
 });
 
 const StoreProvider = () => {
-  const [darkMode, setDarkMode] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [user, setUser] = useState(null);
   const [userError, setUserError] = useState(null);
   const [isSendEmail, setIsSendEmail] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [authLoading, setAuthLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [dbMedicines, setDbMedicines] = useState([]);
-  const [userDbMedicines, setUserDbMedicines] = useState([]);
-  const [medicines, setMedicines] = useState([]);
   const [createError, setCreateError] = useState('');
 
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const fetchMedicines = () => {
-    setLoading(true);
+    dispatch({ type: DATA_LOADING, payload: true });
     db.collection('smc')
       .orderBy('name')
       .onSnapshot((snapshot) => {
@@ -51,13 +58,13 @@ const StoreProvider = () => {
         snapshot.docs.forEach((doc) => {
           medicines.push({ ...doc.data(), id: doc.id });
         });
-        setDbMedicines(medicines);
-        setLoading(false);
+        dispatch({ type: SET_MEDICINES, payload: medicines });
+        dispatch({ type: DATA_LOADING, payload: false });
       });
   };
 
   const fetchUserMedicines = (url) => {
-    setLoading(true);
+    dispatch({ type: DATA_LOADING, payload: true });
     db.collection(url)
       .orderBy('name')
       .onSnapshot((snapshot) => {
@@ -65,17 +72,44 @@ const StoreProvider = () => {
         snapshot.docs.forEach((doc) => {
           medicines.push({ ...doc.data(), id: doc.id });
         });
-        setUserDbMedicines(medicines);
-        setLoading(false);
+        dispatch({ type: SET_USER_MEDICINES, payload: medicines });
+        dispatch({ type: DATA_LOADING, payload: false });
       });
   };
 
-  const filterMedicines = (searchTerm) => {
-    setMedicines([]);
-    const tempMedicines = dbMedicines?.filter((medicine) =>
-      medicine.name.toLowerCase().includes(searchTerm)
-    );
-    setMedicines(tempMedicines);
+  const fetchUserInvoices = (shopUrl) => {
+    dispatch({ type: DATA_LOADING, payload: true });
+    db.collection(`${shopUrl}.invoices`)
+      .orderBy('date', 'desc')
+      .onSnapshot((snapshot) => {
+        let invoices = [];
+        snapshot.docs.forEach((doc) => {
+          invoices.push({ ...doc.data(), id: doc.id });
+        });
+        dispatch({ type: SET_USER_INVOICES, payload: invoices });
+        dispatch({ type: DATA_LOADING, payload: false });
+      });
+  };
+
+  const setSearchTerm = (term) =>
+    dispatch({ type: SET_SEARCH_TERM, payload: term });
+
+  const fetchSingleInvoice = (shopUrl, invoiceId) => {
+    dispatch({ type: DATA_LOADING, payload: true });
+    db.collection(`${shopUrl}.invoices`)
+      .doc(invoiceId)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          dispatch({
+            type: SET_SINGLE_INVOICE,
+            payload: { ...doc.data(), id: doc.id },
+          });
+        } else {
+          dispatch({ type: SET_SINGLE_INVOICE, payload: {} });
+        }
+      })
+      .then(() => dispatch({ type: DATA_LOADING, payload: false }));
   };
 
   const createUser = ({ name, email, password }) => {
@@ -92,7 +126,7 @@ const StoreProvider = () => {
           .collection('users')
           .doc(data.user.uid)
           .set(newUser)
-          .then(() => setUser(newUser));
+          .then(() => dispatch({ type: SET_USER, payload: newUser }));
       })
       .catch((err) => {
         if (err.code === 'auth/email-already-in-use') {
@@ -115,7 +149,17 @@ const StoreProvider = () => {
           .doc(res.user.uid)
           .get()
           .then((doc) => {
-            setUser(doc.data());
+            const { email, name, shopName, shopUrl, uid } = doc.data();
+            dispatch({
+              type: SET_USER,
+              payload: {
+                email,
+                name,
+                shopName,
+                shopUrl,
+                uid,
+              },
+            });
           })
       )
       .catch((err) => {
@@ -155,7 +199,7 @@ const StoreProvider = () => {
     return firebase
       .auth()
       .signOut()
-      .then(() => setUser(null))
+      .then(() => dispatch({ type: SET_USER, payload: null }))
       .catch((err) => console.log('Log out err', err));
   };
 
@@ -178,18 +222,19 @@ const StoreProvider = () => {
             .add(newMedicine)
             .then(() => {
               db.collection('users')
-                .doc(user.uid)
+                .doc(state.user.uid)
                 .update({
                   shopName: values.shopName,
                   shopUrl: values.shopUrl,
                 })
                 .then(() => {
-                  setUser((prev) => {
-                    return {
-                      ...prev,
+                  dispatch({
+                    type: SET_USER,
+                    payload: {
+                      ...state.user,
                       shopName: values.shopName,
                       shopUrl: values.shopUrl,
-                    };
+                    },
                   });
                   setCreateError('');
                 })
@@ -202,20 +247,42 @@ const StoreProvider = () => {
       });
   };
 
-  const filterUserMedicines = (searchTerm) => {
-    setMedicines([]);
-    const tempMedicines = userDbMedicines?.filter((medicine) =>
-      medicine.name.toLowerCase().includes(searchTerm)
-    );
-    setMedicines(tempMedicines);
-  };
-
   const addMedicine = (medicine) => {
-    return db.collection(user.shopUrl).add(medicine);
+    return db.collection(state.user.shopUrl).add(medicine);
   };
 
   const deleteMedicine = (docId) => {
-    return db.collection(user.shopUrl).doc(docId).delete();
+    return db.collection(state.user.shopUrl).doc(docId).delete();
+  };
+
+  const addUserInvoice = (invoiceDetails) => {
+    return db.collection(`${state.user.shopUrl}.invoices`).add(invoiceDetails);
+  };
+
+  const deleteMedicineFromInvoice = (invoiceId, medicineId) => {
+    if (state.singleInvoice.medicines?.length > 1) {
+      let tempMedicines = state.singleInvoice.medicines.filter(
+        (medicine) => medicine.id !== medicineId
+      );
+      return db
+        .collection(`${state.user.shopUrl}.invoices`)
+        .doc(invoiceId)
+        .update({
+          medicines: tempMedicines,
+        })
+        .then(() =>
+          dispatch({
+            type: SET_SINGLE_INVOICE,
+            payload: { ...state.singleInvoice, medicines: tempMedicines },
+          })
+        );
+    } else {
+      return db
+        .collection(`${state.user.shopUrl}.invoices`)
+        .doc(invoiceId)
+        .delete()
+        .then(() => dispatch({ type: SET_SINGLE_INVOICE, payload: {} }));
+    }
   };
 
   const lightTheme = createMuiTheme({
@@ -233,9 +300,10 @@ const StoreProvider = () => {
     },
   });
 
-  const theme = responsiveFontSizes(darkMode ? darkTheme : lightTheme);
+  const theme = responsiveFontSizes(state.darkMode ? darkTheme : lightTheme);
 
-  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () =>
+    dispatch({ type: SET_DARK_MODE, payload: !state.darkMode });
 
   useEffect(() => {
     return firebase.auth().onAuthStateChanged((user) => {
@@ -245,31 +313,32 @@ const StoreProvider = () => {
           .doc(firebase.auth().currentUser?.uid)
           .get()
           .then((doc) => {
-            setUser(doc.data());
+            dispatch({ type: SET_USER, payload: doc.data() });
           })
-          .then(() => setAuthLoading(false))
+          .then(() => dispatch({ type: AUTH_LOADING, payload: false }))
           .catch(() => {
-            setUser(null);
-            setAuthLoading(false);
+            dispatch({ type: SET_USER, payload: null });
+            dispatch({ type: AUTH_LOADING, payload: false });
           });
       } else {
-        setUser(null);
-        setAuthLoading(false);
+        dispatch({ type: SET_USER, payload: null });
+        dispatch({ type: AUTH_LOADING, payload: false });
       }
     });
   }, [firebase.auth()]);
 
+  useEffect(() => {
+    localStorage.setItem('SMC_DARK_MODE', JSON.stringify(state.darkMode));
+  }, [state.darkMode]);
+
   return (
     <StoreContext.Provider
       value={{
-        darkMode,
+        state,
         toggleDarkMode,
-        searchTerm,
-        setSearchTerm,
         fetchMedicines,
         fetchUserMedicines,
-        user,
-        setUser,
+        setSearchTerm,
         createUser,
         loginUser,
         logoutUser,
@@ -278,21 +347,14 @@ const StoreProvider = () => {
         setIsSendEmail,
         userError,
         setUserError,
-        authLoading,
-        loading,
-        setLoading,
         error,
         setError,
-        dbMedicines,
-        setDbMedicines,
-        userDbMedicines,
-        setUserDbMedicines,
         addMedicine,
         deleteMedicine,
-        medicines,
-        setMedicines,
-        filterMedicines,
-        filterUserMedicines,
+        addUserInvoice,
+        deleteMedicineFromInvoice,
+        fetchUserInvoices,
+        fetchSingleInvoice,
         createCollection,
         createError,
         setCreateError,

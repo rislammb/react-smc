@@ -100,7 +100,7 @@ const AddMedicine = ({ open, toggleModal }) => {
           <CardContent>
             <form onSubmit={formik.handleSubmit}>
               <DoseField
-                autofocus
+                autoFocus
                 value={formik.values.dForm}
                 onChange={formik.handleChange}
                 error={formik.touched.dForm && Boolean(formik.errors.dForm)}
