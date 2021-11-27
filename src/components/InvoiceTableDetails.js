@@ -64,12 +64,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InvoiceTable = ({ invoiceId, medicines }) => {
+const InvoiceTableDetails = ({ invoiceId, medicines }) => {
   const classes = useStyles();
   const { deleteMedicineFromInvoice } = useContext(StoreContext);
 
-  const deleteFn = (name, medicineId) => {
-    if (window.confirm(`Are you want to delete '${name}'`))
+  const deleteFn = (medicineId, name, size) => {
+    if (
+      window.confirm(`Are you want to delete '${name}${size && `, ${size}`}'?`)
+    )
       deleteMedicineFromInvoice(invoiceId, medicineId);
   };
 
@@ -125,7 +127,7 @@ const InvoiceTable = ({ invoiceId, medicines }) => {
                 <SlimTableCell align='center'>
                   <IconButton
                     style={{ padding: 7 }}
-                    onClick={() => deleteFn(name, id)}
+                    onClick={() => deleteFn(id, name, size)}
                   >
                     <Delete color='secondary' fontSize='small' />
                   </IconButton>
@@ -139,4 +141,4 @@ const InvoiceTable = ({ invoiceId, medicines }) => {
   );
 };
 
-export default InvoiceTable;
+export default InvoiceTableDetails;

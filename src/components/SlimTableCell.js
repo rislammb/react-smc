@@ -3,9 +3,9 @@ import TableCell from '@material-ui/core/TableCell';
 
 const useStyles = makeStyles((theme) => ({
   lsPaddingRoot: {
-    padding: '5px 6px',
+    padding: '4px 6px',
     [theme.breakpoints.up('md')]: {
-      padding: '7px 16px',
+      padding: '5px 16px',
     },
   },
 }));

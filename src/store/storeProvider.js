@@ -80,7 +80,7 @@ const StoreProvider = () => {
   const fetchUserInvoices = (shopUrl) => {
     dispatch({ type: DATA_LOADING, payload: true });
     db.collection(`${shopUrl}.invoices`)
-      .orderBy('date', 'desc')
+      .orderBy('isoString', 'desc')
       .onSnapshot((snapshot) => {
         let invoices = [];
         snapshot.docs.forEach((doc) => {
@@ -264,24 +264,17 @@ const StoreProvider = () => {
       let tempMedicines = state.singleInvoice.medicines.filter(
         (medicine) => medicine.id !== medicineId
       );
-      return db
-        .collection(`${state.user.shopUrl}.invoices`)
-        .doc(invoiceId)
-        .update({
-          medicines: tempMedicines,
-        })
-        .then(() =>
-          dispatch({
-            type: SET_SINGLE_INVOICE,
-            payload: { ...state.singleInvoice, medicines: tempMedicines },
-          })
-        );
+
+      db.collection(`${state.user.shopUrl}.invoices`).doc(invoiceId).update({
+        medicines: tempMedicines,
+      });
+      return dispatch({
+        type: SET_SINGLE_INVOICE,
+        payload: { ...state.singleInvoice, medicines: tempMedicines },
+      });
     } else {
-      return db
-        .collection(`${state.user.shopUrl}.invoices`)
-        .doc(invoiceId)
-        .delete()
-        .then(() => dispatch({ type: SET_SINGLE_INVOICE, payload: {} }));
+      db.collection(`${state.user.shopUrl}.invoices`).doc(invoiceId).delete();
+      return dispatch({ type: SET_SINGLE_INVOICE, payload: {} });
     }
   };
 

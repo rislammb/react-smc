@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Card, LinearProgress, Typography } from '@material-ui/core';
 
 import SearchInvoice from '../components/SearchInvoice';
-import InvoiceTable from '../components/InvoiceTable';
+import InvoiceTableDetails from '../components/InvoiceTableDetails';
 
 import StoreContext from '../store/storeContext';
 
@@ -89,7 +89,7 @@ const InvoiceDetails = ({ match }) => {
               </div>
             </div>
             {medicines?.length > 0 ? (
-              <InvoiceTable invoiceId={id} medicines={medicines} />
+              <InvoiceTableDetails invoiceId={id} medicines={medicines} />
             ) : (
               <Typography style={{ padding: '25px 8px', textAlign: 'center' }}>
                 Medicines not found!

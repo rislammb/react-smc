@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   FormControl,
@@ -8,9 +8,13 @@ import {
   makeStyles,
   IconButton,
 } from '@material-ui/core';
-import { Add, Clear, ArrowBack } from '@material-ui/icons';
-
-import StoreContext from '../store/storeContext';
+import {
+  Add,
+  Clear,
+  ArrowBack,
+  DateRange,
+  LocalHospital,
+} from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   topContainer: {
@@ -38,11 +42,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchInvoice = ({ shopUrl, searchTerm, setSearchTerm, details }) => {
+const SearchInvoice = ({
+  shopUrl,
+  searchTerm,
+  setSearchTerm,
+  dateView,
+  setDateView,
+  details,
+}) => {
   const classes = useStyles();
-  const {
-    state: { invoices },
-  } = useContext(StoreContext);
 
   return (
     <div className={classes.topContainer}>
@@ -67,7 +75,24 @@ const SearchInvoice = ({ shopUrl, searchTerm, setSearchTerm, details }) => {
             value={searchTerm}
             autoFocus
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder={`Search from ${invoices.length} Invoices`}
+            placeholder={`Search by ${dateView ? 'Date' : 'Medicine'}`}
+            startAdornment={
+              <InputAdornment position='start'>
+                {dateView ? (
+                  <DateRange
+                    style={{ cursor: 'pointer' }}
+                    fontSize='small'
+                    onClick={() => setDateView(false)}
+                  />
+                ) : (
+                  <LocalHospital
+                    style={{ cursor: 'pointer' }}
+                    fontSize='small'
+                    onClick={() => setDateView(true)}
+                  />
+                )}
+              </InputAdornment>
+            }
             endAdornment={
               <InputAdornment position='end'>
                 <Clear

@@ -222,6 +222,7 @@ const AddInvoice = ({ match, history }) => {
         });
         addUserInvoice({
           date: getDate(selectedDate),
+          isoString: selectedDate.toISOString(),
           buyFrom: trimedBuyFrom,
           invoiceNumber: trimedInvoiceNumber,
           medicines: finalList,
