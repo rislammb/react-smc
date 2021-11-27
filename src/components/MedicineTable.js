@@ -168,8 +168,8 @@ const MedicineTable = ({ shopUrl }) => {
       <Card className={classes.center}>
         <Typography variant='h6'>
           {searchTerm.trim().length < 2
-            ? 'Type at least two character'
-            : 'There are nothing to match'}
+            ? 'Type at least two characters.'
+            : 'There are nothing to match.'}
         </Typography>
       </Card>
     );

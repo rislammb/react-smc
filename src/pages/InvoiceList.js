@@ -36,7 +36,7 @@ const InvoiceList = ({ match }) => {
   const [renderableInvoices, setRenderableInvoices] = useState([]);
   const [rederableMedicines, setRederableMedicines] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [dateView, setDateView] = useState(true);
+  const [dateView, setDateView] = useState(false);
 
   useEffect(() => {
     if (dateView) {
@@ -93,6 +93,7 @@ const InvoiceList = ({ match }) => {
           <InvoiceMedicineList
             shopUrl={shopUrl}
             rederableMedicines={rederableMedicines}
+            searchTerm={searchTerm}
           />
         )}
       </div>

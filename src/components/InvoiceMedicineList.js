@@ -49,7 +49,7 @@ const SmTableCell = (props) => (
   </TableCell>
 );
 
-const InvoiceMedicineList = ({ shopUrl, rederableMedicines }) => {
+const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
   const classes = useStyles();
 
   return (
@@ -65,51 +65,59 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rederableMedicines.length > 0 ? (
-            rederableMedicines.map((medicine) => {
-              const {
-                invoiceId,
-                date,
-                buyFrom,
-                id,
-                dogesForm,
-                name,
-                size,
-                amount,
-                price,
-                expireDate,
-              } = medicine;
-              return (
-                <TableRow key={invoiceId + date + name + id}>
-                  <SmTableCell>
-                    <Link
-                      to={`/i/${shopUrl}/${invoiceId}`}
-                      style={{ textDecoration: 'none', zIndex: 3 }}
-                    >
-                      <Typography className={classes.date}>{date}</Typography>
-                    </Link>
-                  </SmTableCell>
-                  <SmTableCell>
-                    <Typography>{name}</Typography>
-                    <Typography>{size}</Typography>
-                    <Typography>{dogesForm}</Typography>
-                  </SmTableCell>
-                  <SmTableCell>
-                    <Typography>{amount}</Typography>
-                  </SmTableCell>
-                  <SmTableCell align='center'>
-                    <Typography>{price}</Typography>
-                  </SmTableCell>
-                  <SmTableCell align='right'>
-                    <Typography>{expireDate}</Typography>
-                  </SmTableCell>
-                </TableRow>
-              );
-            })
+          {searchTerm.trim().length > 1 ? (
+            rederableMedicines.length > 0 ? (
+              rederableMedicines.map((medicine) => {
+                const {
+                  invoiceId,
+                  date,
+                  buyFrom,
+                  id,
+                  dogesForm,
+                  name,
+                  size,
+                  amount,
+                  price,
+                  expireDate,
+                } = medicine;
+                return (
+                  <TableRow key={invoiceId + date + name + id}>
+                    <SmTableCell>
+                      <Link
+                        to={`/i/${shopUrl}/${invoiceId}`}
+                        style={{ textDecoration: 'none', zIndex: 3 }}
+                      >
+                        <Typography className={classes.date}>{date}</Typography>
+                      </Link>
+                    </SmTableCell>
+                    <SmTableCell>
+                      <Typography>{name}</Typography>
+                      <Typography>{size}</Typography>
+                      <Typography>{dogesForm}</Typography>
+                    </SmTableCell>
+                    <SmTableCell>
+                      <Typography>{amount}</Typography>
+                    </SmTableCell>
+                    <SmTableCell align='center'>
+                      <Typography>{price}</Typography>
+                    </SmTableCell>
+                    <SmTableCell align='right'>
+                      <Typography>{expireDate}</Typography>
+                    </SmTableCell>
+                  </TableRow>
+                );
+              })
+            ) : (
+              <TableRow>
+                <TableCell colSpan='5' className={classes.center}>
+                  There are nothing to match.
+                </TableCell>
+              </TableRow>
+            )
           ) : (
             <TableRow>
               <TableCell colSpan='5' className={classes.center}>
-                There are no matching medicine.
+                Type at least two characters.
               </TableCell>
             </TableRow>
           )}
