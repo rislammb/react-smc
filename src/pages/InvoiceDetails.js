@@ -1,8 +1,9 @@
 import React, { useEffect, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, LinearProgress, Typography } from '@material-ui/core';
+import { Card, Typography } from '@material-ui/core';
 
+import Spinner from '../components/spinner/Spinner';
 import SearchInvoice from '../components/SearchInvoice';
 import InvoiceTableDetails from '../components/InvoiceTableDetails';
 
@@ -15,10 +16,6 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light'
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
-  },
-  progress: {
-    width: '130px',
-    margin: 'auto',
   },
   center: {
     textAlign: 'center',
@@ -61,7 +58,7 @@ const InvoiceDetails = ({ match }) => {
         <SearchInvoice shopUrl={shopUrl} details />
         {dataLoading ? (
           <Card className={classes.center}>
-            <LinearProgress className={classes.progress} />
+            <Spinner />
           </Card>
         ) : id ? (
           <div>
@@ -100,6 +97,13 @@ const InvoiceDetails = ({ match }) => {
           <Card className={classes.center}>
             <Typography color='secondary' variant='h6'>
               Invoice not found!
+              <br />
+              <Link
+                style={{ textDecoration: 'none', color: '#248b8f' }}
+                to={`/i/${shopUrl}`}
+              >
+                Go back
+              </Link>
             </Typography>
           </Card>
         )}

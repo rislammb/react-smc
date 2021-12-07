@@ -52,6 +52,11 @@ const SearchInvoice = ({
 }) => {
   const classes = useStyles();
 
+  const toggleDateView = () => {
+    setDateView(!dateView);
+    setSearchTerm('');
+  };
+
   return (
     <div className={classes.topContainer}>
       {details ? (
@@ -79,16 +84,16 @@ const SearchInvoice = ({
             startAdornment={
               <InputAdornment position='start'>
                 {dateView ? (
-                  <DateRange
-                    style={{ cursor: 'pointer' }}
-                    fontSize='small'
-                    onClick={() => setDateView(false)}
-                  />
-                ) : (
                   <LocalHospital
                     style={{ cursor: 'pointer' }}
                     fontSize='small'
-                    onClick={() => setDateView(true)}
+                    onClick={toggleDateView}
+                  />
+                ) : (
+                  <DateRange
+                    style={{ cursor: 'pointer' }}
+                    fontSize='small'
+                    onClick={toggleDateView}
                   />
                 )}
               </InputAdornment>

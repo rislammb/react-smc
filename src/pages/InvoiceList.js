@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, LinearProgress } from '@material-ui/core';
+import { Card } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
+
+import Spinner from '../components/spinner/Spinner';
 import SearchInvoice from '../components/SearchInvoice';
 import InvoiceTableList from '../components/InvoiceDateList';
 import InvoiceMedicineList from '../components/InvoiceMedicineList';
@@ -20,10 +23,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:
       theme.palette.type === 'light' ? 'rgba(255,255,255,0.3)' : '',
   },
-  progress: {
-    width: '130px',
-    margin: 'auto',
-  },
 }));
 
 const InvoiceList = ({ match }) => {
@@ -33,17 +32,37 @@ const InvoiceList = ({ match }) => {
     fetchUserInvoices,
   } = useContext(StoreContext);
   const classes = useStyles();
+  const [filteredInvoices, setFilteredInvoices] = useState([]);
   const [renderableInvoices, setRenderableInvoices] = useState([]);
-  const [rederableMedicines, setRederableMedicines] = useState([]);
+  const [filteredMedicines, setFilteredMedicines] = useState([]);
+  const [renderableMedicines, setRenderableMedicines] = useState([]);
+  const [renderablePage, setRenderablePage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [dateView, setDateView] = useState(false);
 
+  const itemPerPage = 3;
+
   useEffect(() => {
+    const tempInvoices = [...filteredInvoices];
+    setRenderableInvoices(
+      tempInvoices.splice((renderablePage - 1) * itemPerPage, itemPerPage)
+    );
+  }, [filteredInvoices, renderablePage]);
+
+  useEffect(() => {
+    const tempMedicines = [...filteredMedicines];
+    setRenderableMedicines(
+      tempMedicines.splice((renderablePage - 1) * itemPerPage, itemPerPage)
+    );
+  }, [filteredMedicines, renderablePage]);
+
+  useEffect(() => {
+    setRenderablePage(1);
     if (dateView) {
       const tempInvoices = invoices.filter((invoice) =>
         invoice.date.toLowerCase().includes(searchTerm.toLowerCase())
       );
-      setRenderableInvoices(tempInvoices);
+      return setFilteredInvoices(tempInvoices);
     } else {
       let tempMedicines = [];
       invoices.map((invoice) => {
@@ -61,7 +80,7 @@ const InvoiceList = ({ match }) => {
           } else return;
         });
       });
-      setRederableMedicines(tempMedicines);
+      return setFilteredMedicines(tempMedicines);
     }
   }, [invoices, searchTerm, dateView]);
 
@@ -82,7 +101,7 @@ const InvoiceList = ({ match }) => {
         />
         {dataLoading ? (
           <Card className={classes.center}>
-            <LinearProgress className={classes.progress} />
+            <Spinner />
           </Card>
         ) : dateView ? (
           <InvoiceTableList
@@ -92,10 +111,38 @@ const InvoiceList = ({ match }) => {
         ) : (
           <InvoiceMedicineList
             shopUrl={shopUrl}
-            rederableMedicines={rederableMedicines}
+            rederableMedicines={renderableMedicines}
             searchTerm={searchTerm}
           />
         )}
+        <div
+          style={{
+            display: 'flex',
+            marginTop: '8px',
+            justifyContent: 'center',
+          }}
+        >
+          {dateView ? (
+            filteredInvoices.length > itemPerPage ? (
+              <Pagination
+                onChange={(e, value) => setRenderablePage(value)}
+                count={Math.ceil(filteredInvoices.length / itemPerPage)}
+                color='primary'
+              />
+            ) : (
+              ''
+            )
+          ) : searchTerm.trim().length > 1 &&
+            filteredMedicines.length > itemPerPage ? (
+            <Pagination
+              onChange={(e, value) => setRenderablePage(value)}
+              count={Math.ceil(filteredMedicines.length / itemPerPage)}
+              color='primary'
+            />
+          ) : (
+            ''
+          )}
+        </div>
       </div>
     );
 };

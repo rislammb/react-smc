@@ -41,6 +41,17 @@ const useStyles = makeStyles((theme) => ({
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
   },
+  name: {
+    color:
+      theme.palette.type === 'light'
+        ? theme.palette.primary.dark
+        : theme.palette.primary.light,
+  },
+  super: {
+    backgroundColor: theme.palette.type === 'dark' ? '#555' : '#ded',
+    padding: '0px 9px 4px 9px',
+    borderRadius: '7px 23px',
+  },
 }));
 
 const SmTableCell = (props) => (
@@ -58,9 +69,10 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
         <TableHead>
           <TableRow className={classes.tableHead}>
             <SmTableCell>Date</SmTableCell>
+            <SmTableCell>Buy From</SmTableCell>
             <SmTableCell>Medicine Details</SmTableCell>
-            <SmTableCell>Amount</SmTableCell>
-            <SmTableCell align='center'>Price</SmTableCell>
+            <SmTableCell align='center'>Amount</SmTableCell>
+            <SmTableCell align='right'>Price</SmTableCell>
             <SmTableCell align='right'>Expire Date</SmTableCell>
           </TableRow>
         </TableHead>
@@ -91,14 +103,29 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
                       </Link>
                     </SmTableCell>
                     <SmTableCell>
-                      <Typography>{name}</Typography>
-                      <Typography>{size}</Typography>
-                      <Typography>{dogesForm}</Typography>
+                      <Typography>{buyFrom}</Typography>
                     </SmTableCell>
                     <SmTableCell>
-                      <Typography>{amount}</Typography>
+                      <Typography className={classes.name}>
+                        {name}
+                        {size && (
+                          <sup className={classes.super}>
+                            <Typography
+                              variant='caption'
+                              component='small'
+                              color='textPrimary'
+                            >
+                              {size}
+                            </Typography>
+                          </sup>
+                        )}
+                      </Typography>
+                      <Typography variant='caption'>{dogesForm}</Typography>
                     </SmTableCell>
                     <SmTableCell align='center'>
+                      <Typography>{amount}</Typography>
+                    </SmTableCell>
+                    <SmTableCell align='right'>
                       <Typography>{price}</Typography>
                     </SmTableCell>
                     <SmTableCell align='right'>
@@ -109,14 +136,14 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
               })
             ) : (
               <TableRow>
-                <TableCell colSpan='5' className={classes.center}>
+                <TableCell colSpan='6' className={classes.center}>
                   There are nothing to match.
                 </TableCell>
               </TableRow>
             )
           ) : (
             <TableRow>
-              <TableCell colSpan='5' className={classes.center}>
+              <TableCell colSpan='6' className={classes.center}>
                 Type at least two characters.
               </TableCell>
             </TableRow>

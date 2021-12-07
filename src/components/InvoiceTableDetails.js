@@ -84,8 +84,7 @@ const InvoiceTableDetails = ({ invoiceId, medicines }) => {
             <SlimTableCell>Medicine Details</SlimTableCell>
             <SlimTableCell align='center'>Amount</SlimTableCell>
             <SlimTableCell align='right'>Price</SlimTableCell>
-            <SlimTableCell>Expire Date</SlimTableCell>
-
+            <SlimTableCell align='right'>Expire Date</SlimTableCell>
             <TableCell align='center'></TableCell>
           </TableRow>
         </TableHead>
@@ -121,7 +120,7 @@ const InvoiceTableDetails = ({ invoiceId, medicines }) => {
                 <SlimTableCell align='right'>
                   <Typography>{price}</Typography>
                 </SlimTableCell>
-                <SlimTableCell>
+                <SlimTableCell align='right'>
                   <Typography>{expireDate}</Typography>
                 </SlimTableCell>
                 <SlimTableCell align='center'>

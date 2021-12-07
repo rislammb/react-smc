@@ -10,8 +10,8 @@ import {
   TableCell,
   Typography,
   Card,
-  LinearProgress,
 } from '@material-ui/core';
+import Spinner from './spinner/Spinner';
 import SlimTableCell from './SlimTableCell';
 import DeleteMedicine from './DeleteMedicine';
 import { getIcon } from '../getIcon';
@@ -26,10 +26,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: '200px',
     overflowX: 'visible',
-  },
-  progress: {
-    width: '130px',
-    margin: 'auto',
   },
   center: {
     textAlign: 'center',
@@ -99,7 +95,7 @@ const MedicineTable = ({ shopUrl }) => {
   if (dataLoading)
     return (
       <Card className={classes.center}>
-        <LinearProgress className={classes.progress} />
+        <Spinner />
       </Card>
     );
   else if (error)
