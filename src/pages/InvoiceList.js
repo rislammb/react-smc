@@ -40,7 +40,7 @@ const InvoiceList = ({ match }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [dateView, setDateView] = useState(false);
 
-  const itemPerPage = 3;
+  const itemPerPage = 15;
 
   useEffect(() => {
     const tempInvoices = [...filteredInvoices];

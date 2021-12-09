@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.type === 'dark' ? '#333' : '#eee',
   },
   date: {
-    fontSize: '1.1rem',
+    fontSize: '1rem',
     color:
       theme.palette.type === 'light'
         ? theme.palette.primary.dark
@@ -80,18 +80,10 @@ const InvoiceDateList = ({ shopUrl, renderableInvoices }) => {
                       <Typography className={classes.date}>{date}</Typography>
                     </Link>
                   </SmTableCell>
-                  <SmTableCell>
-                    <Typography>{buyFrom}</Typography>
-                  </SmTableCell>
-                  <SmTableCell>
-                    <Typography>{invoiceNumber}</Typography>
-                  </SmTableCell>
-                  <SmTableCell align='center'>
-                    <Typography>{medicines.length}</Typography>
-                  </SmTableCell>
-                  <SmTableCell align='right'>
-                    <Typography>{price}</Typography>
-                  </SmTableCell>
+                  <SmTableCell>{buyFrom}</SmTableCell>
+                  <SmTableCell>{invoiceNumber}</SmTableCell>
+                  <SmTableCell align='center'>{medicines.length}</SmTableCell>
+                  <SmTableCell align='right'>{price}</SmTableCell>
                 </TableRow>
               );
             })

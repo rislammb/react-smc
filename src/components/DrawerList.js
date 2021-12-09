@@ -8,7 +8,14 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@material-ui/core';
-import { Mail, AccountCircle, Home, Pages, Info } from '@material-ui/icons';
+import {
+  Mail,
+  AccountCircle,
+  Home,
+  Pages,
+  Info,
+  ListAlt,
+} from '@material-ui/icons';
 
 import StoreContext from '../store/storeContext';
 
@@ -99,7 +106,7 @@ const DrawerList = ({ closeDrawer }) => {
           >
             <ListItem button>
               <ListItemIcon>
-                <Pages />
+                <ListAlt />
               </ListItemIcon>
               <ListItemText primary='Your Invoice' />
             </ListItem>

@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === 'light' ? 'rgba(255,255,255,0.3)' : '',
   },
   root: {
-    minWidth: '490px',
+    minWidth: '570px',
   },
   center: {
     textAlign: 'center',
@@ -35,27 +35,23 @@ const useStyles = makeStyles((theme) => ({
     background: theme.palette.type === 'dark' ? '#333' : '#eee',
   },
   date: {
-    fontSize: '1.1rem',
+    fontSize: '0.9rem',
     color:
       theme.palette.type === 'light'
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
   },
   name: {
+    fontSize: '0.9rem',
     color:
       theme.palette.type === 'light'
         ? theme.palette.primary.dark
         : theme.palette.primary.light,
   },
-  super: {
-    backgroundColor: theme.palette.type === 'dark' ? '#555' : '#ded',
-    padding: '0px 9px 4px 9px',
-    borderRadius: '7px 23px',
-  },
 }));
 
 const SmTableCell = (props) => (
-  <TableCell style={{ padding: '8px' }} {...props}>
+  <TableCell style={{ padding: '3px 6px' }} {...props}>
     {props.children}
   </TableCell>
 );
@@ -102,35 +98,17 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
                         <Typography className={classes.date}>{date}</Typography>
                       </Link>
                     </SmTableCell>
+                    <SmTableCell>{buyFrom}</SmTableCell>
                     <SmTableCell>
-                      <Typography>{buyFrom}</Typography>
-                    </SmTableCell>
-                    <SmTableCell>
-                      <Typography className={classes.name}>
-                        {name}
-                        {size && (
-                          <sup className={classes.super}>
-                            <Typography
-                              variant='caption'
-                              component='small'
-                              color='textPrimary'
-                            >
-                              {size}
-                            </Typography>
-                          </sup>
-                        )}
+                      <Typography className={classes.name}>{name}</Typography>
+                      <Typography variant='caption'>
+                        {size && size}
+                        {dogesForm && ` - ${dogesForm}`}
                       </Typography>
-                      <Typography variant='caption'>{dogesForm}</Typography>
                     </SmTableCell>
-                    <SmTableCell align='center'>
-                      <Typography>{amount}</Typography>
-                    </SmTableCell>
-                    <SmTableCell align='right'>
-                      <Typography>{price}</Typography>
-                    </SmTableCell>
-                    <SmTableCell align='right'>
-                      <Typography>{expireDate}</Typography>
-                    </SmTableCell>
+                    <SmTableCell align='center'>{amount}</SmTableCell>
+                    <SmTableCell align='right'>{price}</SmTableCell>
+                    <SmTableCell align='right'>{expireDate}</SmTableCell>
                   </TableRow>
                 );
               })

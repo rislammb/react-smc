@@ -1,20 +1,28 @@
-const staticCache = 'static-cache-v7.1';
-const dynamicCache = 'dynamic-cache-v7.1';
+const staticCache = 'static-cache-v7.1.1';
+const dynamicCache = 'dynamic-cache-v7.1.1';
 
 const fileToCache = [
   '/',
   '/index.html',
+  '/form-icons/bandage.svg',
   '/form-icons/capsule.svg',
+  '/form-icons/condom.svg',
   '/form-icons/default.svg',
   '/form-icons/drop.svg',
   '/form-icons/infusion.svg',
   '/form-icons/injection.svg',
+  '/form-icons/mask.svg',
+  '/form-icons/napkin.svg',
   '/form-icons/ointment.svg',
+  '/form-icons/pills.svg',
+  '/form-icons/powder.svg',
+  '/form-icons/pregnancy-test.svg',
   '/form-icons/solution.svg',
   '/form-icons/suppository.svg',
   '/form-icons/suspension.svg',
   '/form-icons/syrup.svg',
   '/form-icons/tablet.svg',
+  '/form-icons/tape.svg',
 ];
 
 self.addEventListener('install', function (event) {

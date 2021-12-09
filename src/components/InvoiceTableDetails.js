@@ -114,15 +114,9 @@ const InvoiceTableDetails = ({ invoiceId, medicines }) => {
                   </Typography>
                   <Typography variant='caption'>{dogesForm}</Typography>
                 </SlimTableCell>
-                <SlimTableCell align='center'>
-                  <Typography>{amount}</Typography>
-                </SlimTableCell>
-                <SlimTableCell align='right'>
-                  <Typography>{price}</Typography>
-                </SlimTableCell>
-                <SlimTableCell align='right'>
-                  <Typography>{expireDate}</Typography>
-                </SlimTableCell>
+                <SlimTableCell align='center'>{amount}</SlimTableCell>
+                <SlimTableCell align='right'>{price}</SlimTableCell>
+                <SlimTableCell align='right'>{expireDate}</SlimTableCell>
                 <SlimTableCell align='center'>
                   <IconButton
                     style={{ padding: 7 }}

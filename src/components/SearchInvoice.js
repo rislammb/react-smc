@@ -82,19 +82,11 @@ const SearchInvoice = ({
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder={`Search by ${dateView ? 'Date' : 'Medicine'}`}
             startAdornment={
-              <InputAdornment position='start'>
+              <InputAdornment style={{ cursor: 'pointer' }} position='start'>
                 {dateView ? (
-                  <LocalHospital
-                    style={{ cursor: 'pointer' }}
-                    fontSize='small'
-                    onClick={toggleDateView}
-                  />
+                  <DateRange fontSize='small' onClick={toggleDateView} />
                 ) : (
-                  <DateRange
-                    style={{ cursor: 'pointer' }}
-                    fontSize='small'
-                    onClick={toggleDateView}
-                  />
+                  <LocalHospital fontSize='small' onClick={toggleDateView} />
                 )}
               </InputAdornment>
             }
