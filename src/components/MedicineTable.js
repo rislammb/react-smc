@@ -80,12 +80,12 @@ const MedicineTable = ({ shopUrl }) => {
     if (searchTerm.trim().length > 1) {
       if (shopUrl) {
         const tempMedicines = userMedicines.filter((medicine) =>
-          medicine.name.toLowerCase().includes(searchTerm)
+          medicine.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setRenderableMedicines(tempMedicines);
       } else {
         const tempMedicines = medicines.filter((medicine) =>
-          medicine.name.toLowerCase().includes(searchTerm)
+          medicine.name.toLowerCase().includes(searchTerm.toLowerCase())
         );
         setRenderableMedicines(tempMedicines);
       }
