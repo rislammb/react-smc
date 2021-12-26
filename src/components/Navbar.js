@@ -55,7 +55,7 @@ const Navbar = (props) => {
       <Toolbar className={classes.toolbar}>
         <Typography variant='h4' noWrap className={classes.logo}>
           <NavLink to='/' className={classes.logoLink}>
-            SMc
+            SMC
           </NavLink>
         </Typography>
         <SearchPage props={props} />
