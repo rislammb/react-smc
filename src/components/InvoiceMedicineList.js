@@ -65,11 +65,11 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
         <TableHead>
           <TableRow className={classes.tableHead}>
             <SmTableCell>Date</SmTableCell>
-            <SmTableCell>Buy From</SmTableCell>
             <SmTableCell>Medicine Details</SmTableCell>
             <SmTableCell align='center'>Amount</SmTableCell>
             <SmTableCell align='right'>Price</SmTableCell>
             <SmTableCell align='right'>Expire Date</SmTableCell>
+            <SmTableCell>Buy From</SmTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -98,7 +98,6 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
                         <Typography className={classes.date}>{date}</Typography>
                       </Link>
                     </SmTableCell>
-                    <SmTableCell>{buyFrom}</SmTableCell>
                     <SmTableCell>
                       <Typography className={classes.name}>{name}</Typography>
                       <Typography variant='caption'>
@@ -109,6 +108,7 @@ const InvoiceMedicineList = ({ shopUrl, rederableMedicines, searchTerm }) => {
                     <SmTableCell align='center'>{amount}</SmTableCell>
                     <SmTableCell align='right'>{price}</SmTableCell>
                     <SmTableCell align='right'>{expireDate}</SmTableCell>
+                    <SmTableCell>{buyFrom}</SmTableCell>
                   </TableRow>
                 );
               })

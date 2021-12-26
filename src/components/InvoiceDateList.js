@@ -58,10 +58,10 @@ const InvoiceDateList = ({ shopUrl, renderableInvoices }) => {
         <TableHead>
           <TableRow className={classes.tableHead}>
             <SmTableCell>Date</SmTableCell>
-            <SmTableCell>Buy From</SmTableCell>
-            <SmTableCell>Invoice Number</SmTableCell>
             <SmTableCell align='center'>Total Items</SmTableCell>
             <SmTableCell align='right'>Price</SmTableCell>
+            <SmTableCell>Buy From</SmTableCell>
+            <SmTableCell>Invoice Number</SmTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -80,10 +80,10 @@ const InvoiceDateList = ({ shopUrl, renderableInvoices }) => {
                       <Typography className={classes.date}>{date}</Typography>
                     </Link>
                   </SmTableCell>
-                  <SmTableCell>{buyFrom}</SmTableCell>
-                  <SmTableCell>{invoiceNumber}</SmTableCell>
                   <SmTableCell align='center'>{medicines.length}</SmTableCell>
                   <SmTableCell align='right'>{price}</SmTableCell>
+                  <SmTableCell>{buyFrom}</SmTableCell>
+                  <SmTableCell>{invoiceNumber ? invoiceNumber : '-'}</SmTableCell>
                 </TableRow>
               );
             })
