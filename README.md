@@ -1,4 +1,4 @@
 # react-smc
-Try to PWA with React
+This is a PWA medicine store app
 
-This is mainly medicine store app
+# [Open live](https://react-smc.netlify.app/)
